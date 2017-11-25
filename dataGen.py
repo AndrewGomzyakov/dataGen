@@ -1,33 +1,39 @@
 import json
 import sys
 import random
+import argparse
+
 
 def get_ht(sex):
     if sex == "M":
-        return random.gauss(178, 10)
+        return round(random.gauss(178, 10), 1)
     else:
-        return random.gauss(166, 10)
+        return round(random.gauss(166, 10), 1)
+
 
 def get_age():
     return random.randint(15, 120)
 
+
 def get_sex(chance):
     num = random.randint(1, 100)
-    if (num >= chance):
+    if num >= chance:
         return "W"
     else:
         return "M"
 
+
 def get_wt(ht):
     imt = random.gauss(28, 4)
-    return imt * ((ht / 100) ** 2)
+    return round(imt * ((ht / 100) ** 2), 1)
+
 
 def get_mail(mails):
     alph = "qwertyuiopasdfghjklzxcvbnm_"
     a = ["gmail.com", "yandex.ru", "mail.ru", "rambler.ru"]
     mail_name = ""
-    len = random.randint(5, 10)
-    for i in range(len):
+    length = random.randint(5, 10)
+    for i in range(length):
         char = alph[random.randint(0, 26)]
         mail_name += char
     if mail_name in mails:
@@ -35,6 +41,7 @@ def get_mail(mails):
     else:
         mails.append(mail_name)
         return mail_name + "@" + a[random.randint(0, 3)]
+
 
 def find_name(names):
     kol = names[len(names) - 1]["PeoplesCount"]
@@ -54,7 +61,7 @@ def find_name(names):
 
 
 def make_persons_data(output, cnt,  man_names, man_surnames, woman_names, woman_surnames, chance):
-    with open("output.text", "w") as out:
+    with open(output, "w") as out:
         for i in range(cnt):
             mails = []
             sex = get_sex(chance)
@@ -82,10 +89,10 @@ def main():
     man_surnames = []
     woman_names = []
     woman_surnames = []
-    with open("D:\\DB\\russian_names.json", "r", encoding="utf8") as inp:
+    with open("russian_names.json", "r", encoding="utf8") as inp:
         inp.read(1)
         names = json.load(inp)
-    with open("D:\\DB\\russian_surnames.json", "r", encoding="utf8") as inp:
+    with open("russian_surnames.json", "r", encoding="utf8") as inp:
         inp.read(1)
         surnames = json.load(inp)
     for i in names:
@@ -111,8 +118,12 @@ def main():
         woman_surnames[i]["PeoplesCount"] += woman_surnames[i - 1]["PeoplesCount"]
     for i in range(1, len(man_surnames)):
         man_surnames[i]["PeoplesCount"] += man_surnames[i - 1]["PeoplesCount"]
-
-    make_persons_data("output.text", 200, man_names, man_surnames, woman_names, woman_surnames, 50)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("out_file", type = str)
+    parser.add_argument("cnt", type = int)
+    parser.add_argument("chance", type = int)
+    args = parser.parse_args()
+    make_persons_data(args.out_file, args.cnt, man_names, man_surnames, woman_names, woman_surnames, args.chance)
 
 if __name__ == "__main__":
     main()
