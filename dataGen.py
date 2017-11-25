@@ -83,10 +83,10 @@ def main():
     man_surnames = []
     woman_names = []
     woman_surnames = []
-    with open("\\DB\\russian_names.json", "r", encoding="utf8") as inp:
+    with open("russian_names.json", "r", encoding="utf8") as inp:
         inp.read(1)
         names = json.load(inp)
-    with open("\\DB\\russian_surnames.json", "r", encoding="utf8") as inp:
+    with open("russian_surnames.json", "r", encoding="utf8") as inp:
         inp.read(1)
         surnames = json.load(inp)
     for i in names:
