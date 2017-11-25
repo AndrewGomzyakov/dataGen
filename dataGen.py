@@ -28,19 +28,28 @@ def get_wt(ht):
     return round(imt * ((ht / 100) ** 2), 1)
 
 
-def get_mail(mails):
-    alph = "qwertyuiopasdfghjklzxcvbnm_"
-    a = ["gmail.com", "yandex.ru", "mail.ru", "rambler.ru"]
-    mail_name = ""
-    length = random.randint(5, 10)
-    for i in range(length):
-        char = alph[random.randint(0, 26)]
-        mail_name += char
-    if mail_name in mails:
-        get_mail(mails)
-    else:
-        mails.append(mail_name)
-        return mail_name + "@" + a[random.randint(0, 3)]
+def get_mail():
+    with open("mail.text", "w") as file:
+        file.write("\n")
+    while True:
+        alph = "qwertyuiopasdfghjklzxcvbnm_"
+        a = ["gmail.com", "yandex.ru", "mail.ru", "rambler.ru"]
+        mail_name = ""
+        flag = False
+        length = random.randint(5, 10)
+        for i in range(length):
+            char = alph[random.randint(0, 26)]
+            mail_name += char
+        with open("mail.text", "r") as file:
+            for line in file:
+                if line  == mail_name:
+                    flag = True
+                    break
+        if flag:
+            continue
+        with open("mail.text", "a+") as file:
+            file.write(mail_name + "\n")
+        yield mail_name + "@" + a[random.randint(0, 3)]
 
 
 def find_name(names):
@@ -60,31 +69,9 @@ def find_name(names):
         return names[l]
 
 
-def make_persons_data(output, cnt,  man_names, man_surnames, woman_names, woman_surnames, chance):
-    with open(output, "w") as out:
-        for i in range(cnt):
-            mails = []
-            sex = get_sex(chance)
-            age = get_age()
-            name = ''
-            surname = ""
-            if (sex == 'M'):
-                name = find_name(man_names)["Name"]
-                surname = find_name(man_surnames)["Surname"]
-            else:
-                name = find_name(woman_names)["Name"]
-                surname = find_name(woman_surnames)["Surname"]
-            email = get_mail(mails)
-            ht = get_ht(sex)
-            wt = get_wt(ht)
-            out.write(name + " " + surname + " " + str(sex) + " " + str(age) + " " +str(ht) + " " + str(wt) + " " + str(email) + "\n")
-
-
-def main():
+def make_persons_data(chance):
     man_ends = ["ов", "ев", "ин", "ын", "ий", "ой", "ый"]
     woman_ends = ["ова", "ева", "ина", "ына", "ая"]
-    names = []
-    surnames = []
     man_names = []
     man_surnames = []
     woman_names = []
@@ -118,12 +105,32 @@ def main():
         woman_surnames[i]["PeoplesCount"] += woman_surnames[i - 1]["PeoplesCount"]
     for i in range(1, len(man_surnames)):
         man_surnames[i]["PeoplesCount"] += man_surnames[i - 1]["PeoplesCount"]
+    mail_gen = get_mail()
+    while True:
+        sex = get_sex(chance)
+        age = get_age()
+        if (sex == 'M'):
+            name = find_name(man_names)["Name"]
+            surname = find_name(man_surnames)["Surname"]
+        else:
+            name = find_name(woman_names)["Name"]
+            surname = find_name(woman_surnames)["Surname"]
+        email = mail_gen.__next__()
+        ht = get_ht(sex)
+        wt = get_wt(ht)
+        yield (name + " " + surname + " " + str(sex) + " " + str(age) + " " +str(ht) + " " + str(wt) + " " + str(email) + "\n")
+
+
+def main():
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("out_file", type = str)
-    parser.add_argument("cnt", type = int)
-    parser.add_argument("chance", type = int)
-    args = parser.parse_args()
-    make_persons_data(args.out_file, args.cnt, man_names, man_surnames, woman_names, woman_surnames, args.chance)
+    #parser.add_argument("out_file", type = str)
+    #parser.add_argument("cnt", type = int)
+    #parser.add_argument("chance", type = int)
+    #args = parser.parse_args()
+    gen = make_persons_data(50)
+    for i in range(10):
+        print(gen.__next__())
 
 if __name__ == "__main__":
     main()
