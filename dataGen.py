@@ -38,7 +38,7 @@ def get_mail():
         flag = False
         length = random.randint(5, 10)
         for i in range(length):
-            char = alph[random.randint(0, 26)]
+            char = random.choice(alph)
             mail_name += char
         with open("mail.text", "r") as file:
             for line in file:
@@ -69,24 +69,14 @@ def find_name(names):
         return names[l]
 
 
-def make_persons_data(chance):
+def make_person_surname(sex):
     man_ends = ["ов", "ев", "ин", "ын", "ий", "ой", "ый"]
     woman_ends = ["ова", "ева", "ина", "ына", "ая"]
-    man_names = []
     man_surnames = []
-    woman_names = []
     woman_surnames = []
-    with open("russian_names.json", "r", encoding="utf8") as inp:
-        inp.read(1)
-        names = json.load(inp)
     with open("russian_surnames.json", "r", encoding="utf8") as inp:
         inp.read(1)
         surnames = json.load(inp)
-    for i in names:
-        if i["Sex"] == 'Ж':
-            woman_names.append(i)
-        else:
-            man_names.append(i)
     for i in surnames:
         if i["Surname"][-2:] in man_ends:
             man_surnames.append(i)
@@ -95,42 +85,67 @@ def make_persons_data(chance):
         else:
             man_surnames.append(i)
             woman_surnames.append(i)
+    for i in range(1, len(woman_surnames)):
+        woman_surnames[i]["PeoplesCount"] += woman_surnames[i - 1]["PeoplesCount"]
+    for i in range(1, len(man_surnames)):
+        man_surnames[i]["PeoplesCount"] += man_surnames[i - 1]["PeoplesCount"]
+
+    while True:
+        if (sex == 'M'):
+            surname = find_name(man_surnames)["Surname"]
+        else:
+            surname = find_name(woman_surnames)["Surname"]
+        yield surname
+
+def make_persons_name(sex):
+    man_names = []
+    woman_names = []
+    with open("russian_names.json", "r", encoding="utf8") as inp:
+        inp.read(1)
+        names = json.load(inp)
+
+    for i in names:
+        if i["Sex"] == 'Ж':
+            woman_names.append(i)
+        else:
+            man_names.append(i)
 
     for i in range(1, len(woman_names)):
         woman_names[i]["PeoplesCount"] += woman_names[i - 1]["PeoplesCount"]
     for i in range(1, len(man_names)):
         man_names[i]["PeoplesCount"] += man_names[i - 1]["PeoplesCount"]
 
-    for i in range(1, len(woman_surnames)):
-        woman_surnames[i]["PeoplesCount"] += woman_surnames[i - 1]["PeoplesCount"]
-    for i in range(1, len(man_surnames)):
-        man_surnames[i]["PeoplesCount"] += man_surnames[i - 1]["PeoplesCount"]
-    mail_gen = get_mail()
     while True:
-        sex = get_sex(chance)
-        age = get_age()
         if (sex == 'M'):
             name = find_name(man_names)["Name"]
-            surname = find_name(man_surnames)["Surname"]
         else:
             name = find_name(woman_names)["Name"]
-            surname = find_name(woman_surnames)["Surname"]
-        email = mail_gen.__next__()
-        ht = get_ht(sex)
-        wt = get_wt(ht)
-        yield (name + " " + surname + " " + str(sex) + " " + str(age) + " " +str(ht) + " " + str(wt) + " " + str(email) + "\n")
+        yield name
+
+
+def make_persons_data():
+    parser = argparse.ArgumentParser(add_help=True)
+    parser.add_argument("-c", dest="cnt", type=int, help="задает количество записей, которые необходимо создать")
+    parser.add_argument("-s", dest="choice", type=int, help="задает количество запсей мужского пола на 100 записей")
+    parser.add_argument("-a", dest="age", help="задает средний возраст среди всех записей")
+    parser.add_argument("-output", dest="output", help="задает имя файла, содержащего сгенеированные данные")
+    parser.add_argument("-email", action="store_true", help="флаг отменяет создание email во всех записях")
+    parser.add_argument("-sex", action="store_true", help="флаг отменяет создание пола в записях")
+    parser.add_argument("-name", action="store_true", help="флаг отменяет создание имени в записях")
+    parser.add_argument("-surname", action="store_true", help="флаг отменяет создание фамилии в записях")
+    parser.add_argument("-age", action="store_true", help="флаг отменяет создание возраста в записях")
+    parser.add_argument("-ht", action="store_true", help="флаг отменяет создание роста в записях")
+    parser.add_argument("-wt", action="store_true", help="флаг отменяет создание веса в записях")
+    a = [sys.argv[i] for i in range(1, len(sys.argv))]
+    args = parser.parse_args(a)
+    name_gen = make_persons_name
+    surname_gen = make_person_surname
+    mail_gen = get_mail()
+
 
 
 def main():
-
-    parser = argparse.ArgumentParser()
-    #parser.add_argument("out_file", type = str)
-    #parser.add_argument("cnt", type = int)
-    #parser.add_argument("chance", type = int)
-    #args = parser.parse_args()
-    gen = make_persons_data(50)
-    for i in range(10):
-        print(gen.__next__())
+    make_persons_data()
 
 if __name__ == "__main__":
     main()
