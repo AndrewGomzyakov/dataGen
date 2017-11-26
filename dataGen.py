@@ -11,8 +11,11 @@ def get_ht(sex):
         return round(random.gauss(166, 10), 1)
 
 
-def get_age():
-    return random.randint(15, 120)
+def get_age(age):
+    if age - 15 < 120 - age:
+        return random.randint(15, age + (age - 15))
+    else:
+        return random.randint(age - (120 - age), 120)
 
 
 def get_sex(chance):
@@ -123,29 +126,79 @@ def make_persons_name(sex):
         yield name
 
 
-def make_persons_data():
+def make_persons_data(args):
+    man_name_gen = make_persons_name('M')
+    man_surname_gen = make_person_surname("M")
+    woman_name_gen = make_persons_name('W')
+    woman_surname_gen = make_person_surname("W")
+    mail_gen = get_mail()
+    while True:
+        s = ""
+        sex = ""
+        ht = 0
+        if not args.name:
+            sex += get_sex(args.chance)
+            if sex == "W":
+                s += woman_name_gen.__next__() + " "
+            else:
+                s += man_name_gen.__next__() + " "
+        if not args.surname:
+            if sex == "W":
+                s += woman_surname_gen.__next__() + " "
+            else:
+                s += man_surname_gen.__next__() + " "
+        if not args.sex:
+            if sex == "":
+                sex += get_sex(args.chance)
+            s += sex + " "
+        if not args.A:
+            s += str(get_age(args.age)) + " "
+        if not args.ht:
+            if sex == "":
+                sex += get_sex(args.chance)
+            ht += get_ht(sex)
+            s += str(ht) + " "
+        if not args.wt:
+            if ht == 0:
+                if sex == '':
+                    sex += get_sex(args.chance)
+                ht = get_ht(sex)
+            s += str(get_wt(ht)) + " "
+        if not args.email:
+            s += mail_gen.__next__() + " "
+        yield s + "\n"
+
+
+
+def main():
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument("-c", dest="cnt", type=int, help="задает количество записей, которые необходимо создать")
-    parser.add_argument("-s", dest="choice", type=int, help="задает количество запсей мужского пола на 100 записей")
+    parser.add_argument("-s", dest="chance", type=int, help="задает количество запсей мужского пола на 100 записей")
     parser.add_argument("-a", dest="age", help="задает средний возраст среди всех записей")
     parser.add_argument("-output", dest="output", help="задает имя файла, содержащего сгенеированные данные")
     parser.add_argument("-email", action="store_true", help="флаг отменяет создание email во всех записях")
     parser.add_argument("-sex", action="store_true", help="флаг отменяет создание пола в записях")
     parser.add_argument("-name", action="store_true", help="флаг отменяет создание имени в записях")
     parser.add_argument("-surname", action="store_true", help="флаг отменяет создание фамилии в записях")
-    parser.add_argument("-age", action="store_true", help="флаг отменяет создание возраста в записях")
+    parser.add_argument("-A", action="store_true", help="флаг отменяет создание возраста в записях")
     parser.add_argument("-ht", action="store_true", help="флаг отменяет создание роста в записях")
     parser.add_argument("-wt", action="store_true", help="флаг отменяет создание веса в записях")
     a = [sys.argv[i] for i in range(1, len(sys.argv))]
     args = parser.parse_args(a)
-    name_gen = make_persons_name
-    surname_gen = make_person_surname
-    mail_gen = get_mail()
+    if args.cnt == None:
+        args.cnt = 100
+    if args.chance == None:
+        args.chance = 50
+    if args.age == None:
+        args.age = 30
+    datagen = make_persons_data(args)
+    if args.output == None:
+        args.output = "output.text"
+    with open(args.output, "w") as out:
+        for i in range(args.cnt):
+            out.write(datagen.__next__())
 
 
-
-def main():
-    make_persons_data()
 
 if __name__ == "__main__":
     main()
