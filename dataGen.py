@@ -174,7 +174,7 @@ def main():
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument("-c", dest="cnt", type=int, help="задает количество записей, которые необходимо создать")
     parser.add_argument("-s", dest="chance", type=int, help="задает количество запсей мужского пола на 100 записей")
-    parser.add_argument("-a", dest="age", help="задает средний возраст среди всех записей")
+    parser.add_argument("-a", dest="age", type=int, help="задает средний возраст среди всех записей")
     parser.add_argument("-output", dest="output", help="задает имя файла, содержащего сгенеированные данные")
     parser.add_argument("-email", action="store_true", help="флаг отменяет создание email во всех записях")
     parser.add_argument("-sex", action="store_true", help="флаг отменяет создание пола в записях")
