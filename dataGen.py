@@ -57,6 +57,7 @@ def get_mail():
 
 def find_name(names):
     kol = names[len(names) - 1]["PeoplesCount"]
+    random.seed(random.randint(1, 10000))
     num = random.randint(0, kol)
     l = 0
     r = len(names)
@@ -90,15 +91,17 @@ def make_person_surname(sex):
             woman_surnames.append(i)
     for i in range(1, len(woman_surnames)):
         woman_surnames[i]["PeoplesCount"] += woman_surnames[i - 1]["PeoplesCount"]
+
     for i in range(1, len(man_surnames)):
         man_surnames[i]["PeoplesCount"] += man_surnames[i - 1]["PeoplesCount"]
 
     while True:
         if (sex == 'M'):
-            surname = find_name(man_surnames)["Surname"]
+            surname = man_surnames[random.randint(1, len(man_surnames))]["Surname"]
+            yield surname
         else:
-            surname = find_name(woman_surnames)["Surname"]
-        yield surname
+            surname = woman_surnames[random.randint(1, len(woman_surnames))]["Surname"]
+            yield surname
 
 def make_persons_name(sex):
     man_names = []
@@ -106,23 +109,26 @@ def make_persons_name(sex):
     with open("russian_names.json", "r", encoding="utf8") as inp:
         inp.read(1)
         names = json.load(inp)
-
     for i in names:
         if i["Sex"] == 'Ж':
             woman_names.append(i)
         else:
             man_names.append(i)
-
+    for i in woman_names:
+        if i["Name"] == "Россия":
+            i["PeoplesCount"] = 0
+            
     for i in range(1, len(woman_names)):
         woman_names[i]["PeoplesCount"] += woman_names[i - 1]["PeoplesCount"]
     for i in range(1, len(man_names)):
         man_names[i]["PeoplesCount"] += man_names[i - 1]["PeoplesCount"]
 
     while True:
-        if (sex == 'M'):
-            name = find_name(man_names)["Name"]
-        else:
+        if (sex == 'W'):
             name = find_name(woman_names)["Name"]
+
+        else:
+            name = find_name(man_names)["Name"]
         yield name
 
 
