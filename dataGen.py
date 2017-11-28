@@ -106,18 +106,22 @@ def make_person_surname(sex):
 def make_persons_name(sex):
     man_names = []
     woman_names = []
-    with open("russian_names.json", "r", encoding="utf8") as inp:
-        inp.read(1)
-        names = json.load(inp)
-    for i in names:
-        if i["Sex"] == 'Ж':
-            woman_names.append(i)
-        else:
-            man_names.append(i)
-    for i in woman_names:
-        if i["Name"] == "Россия":
-            i["PeoplesCount"] = 0
-            
+    with open("man_name_prior.text", "r") as inp:
+       for line in inp:
+            a = line.split(" ")
+            pers = {}
+            pers["Name"] = a[0]
+            pers["PeoplesCount"] = int(a[1])
+            man_names.append(pers)
+
+    with open("woman_name_prior.text", "r") as inp:
+       for line in inp:
+            a = line.split(" ")
+            pers = {}
+            pers["Name"] = a[0]
+            pers["PeoplesCount"] = int(a[1])
+            woman_names.append(pers)
+
     for i in range(1, len(woman_names)):
         woman_names[i]["PeoplesCount"] += woman_names[i - 1]["PeoplesCount"]
     for i in range(1, len(man_names)):

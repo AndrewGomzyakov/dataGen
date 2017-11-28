@@ -7,12 +7,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91034198-a549-4bf8-bcf7-2dcab8226ce7" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/output.text" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dataGen.rar" afterPath="$PROJECT_DIR$/dataGen.rar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.text" afterPath="$PROJECT_DIR$/README.text" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/dataGen.rar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/foreign_names.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/russian_names.json" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/analis.py" afterPath="$PROJECT_DIR$/analis.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dataGen.py" afterPath="$PROJECT_DIR$/dataGen.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mail.text" afterPath="$PROJECT_DIR$/mail.text" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out.text" afterPath="$PROJECT_DIR$/out.text" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,8 +31,8 @@
       <file leaf-file-name="dataGen.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dataGen.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="119" column="12" lean-forward="false" selection-start-line="119" selection-start-column="12" selection-end-line="119" selection-end-column="12" />
+            <state relative-caret-position="275">
+              <caret line="121" column="44" lean-forward="false" selection-start-line="121" selection-start-column="44" selection-end-line="121" selection-end-column="44" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -42,12 +43,21 @@
       <file leaf-file-name="analis.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/analis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="27" column="6" lean-forward="true" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+            <state relative-caret-position="306">
+              <caret line="18" column="17" lean-forward="false" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#274#319#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="man_name_prior.text" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/man_name_prior.text">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -140,7 +150,7 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.analis">
+  <component name="RunManager" selected="Python.dataGen">
     <configuration default="false" name="dataGen" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -338,8 +348,8 @@
     </list>
     <recent_temporary>
       <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Python.analis" />
-        <item index="1" class="java.lang.String" itemvalue="Python.dataGen" />
+        <item index="0" class="java.lang.String" itemvalue="Python.dataGen" />
+        <item index="1" class="java.lang.String" itemvalue="Python.analis" />
         <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in tests" />
       </list>
     </recent_temporary>
@@ -404,7 +414,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1370" height="744" extended-state="0" />
+    <frame x="-8" y="-8" width="1370" height="744" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24981245" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -578,29 +588,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Python34/Lib/random.py">
+    <entry file="file://$PROJECT_DIR$/name_prior_wom.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="215" column="0" lean-forward="false" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+        <state relative-caret-position="-51">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/man_name_prior.text">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/analis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="27" column="6" lean-forward="true" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+        <state relative-caret-position="306">
+          <caret line="18" column="17" lean-forward="false" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#274#319#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python34/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="312" column="0" lean-forward="false" selection-start-line="312" selection-start-column="0" selection-end-line="312" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python34/Lib/random.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="215" column="0" lean-forward="false" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dataGen.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="119" column="12" lean-forward="false" selection-start-line="119" selection-start-column="12" selection-end-line="119" selection-end-column="12" />
+        <state relative-caret-position="275">
+          <caret line="121" column="44" lean-forward="false" selection-start-line="121" selection-start-column="44" selection-end-line="121" selection-end-column="44" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>

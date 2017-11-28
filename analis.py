@@ -1,28 +1,28 @@
 import json
 import dataGen
+import re
+import random
 
 
 def alal():
-    man_ends = ["ов", "ев", "ин", "ын", "ий", "ой", "ый"]
-    woman_ends = ["ова", "ева", "ина", "ына", "ая"]
-    man_surnames = []
-    woman_surnames = []
-    with open("russian_surnames.json", "r", encoding="utf8") as inp:
-        inp.read(1)
-        surnames = json.load(inp)
-    for i in surnames:
-        if i["Surname"][-2:] in man_ends:
-            man_surnames.append(i)
-        elif i["Surname"][-3:] in woman_ends or i["Surname"][-2:] in woman_ends:
-            woman_surnames.append(i)
-        else:
-            man_surnames.append(i)
-            woman_surnames.append(i)
+    names = []
+    with open("name_prior_wom.txt", "r", encoding="utf8") as inp:
+        for line in inp:
+            s = line.split(" ")
+            for i in s:
+                if i[0].isalnum() and not i[0].isdigit():
+                    if i[-1] == "\n":
+                        names.append(i[:-1])
+                    else:
+                        names.append(i)
 
-    for i in range(1, len(woman_surnames)):
-        woman_surnames[i]["PeoplesCount"] += woman_surnames[i - 1]["PeoplesCount"]
-    gen = dataGen.make_person_surname("W")
+    with open("woman_name_prior.text", 'w') as out:
+        for i in range(len(names)):
+            if i < 33:
+                out.write(names[i] +  " " + str(random.randint(100, 700)) + '\n')
+            elif i < 66:
+                out.write(names[i] +  " " + str(random.randint(25, 100)) + "\n")
+            else:
+                out.write(names[i] +  " " + str(random.randint(6, 25)) + "\n")
 
-    for i in range(100):
-        print(gen.__next__())
 alal()
