@@ -1,6 +1,7 @@
 import unittest
 import dataGen
 
+
 class MyTestCase(unittest.TestCase):
     def test_get_age(self):
         age = dataGen.get_age(50)
@@ -49,3 +50,7 @@ class MyTestCase(unittest.TestCase):
         woman_gen = dataGen.make_person_surname("W")
         self.assertFalse(str(man_gen.__next__()) == str(man_gen.__next__()))
         self.assertFalse(str(woman_gen.__next__()) == str(woman_gen.__next__()))
+
+
+if __name__ == '__main__':
+    unittest.main()

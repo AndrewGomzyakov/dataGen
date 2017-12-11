@@ -142,41 +142,50 @@ def make_persons_data(args):
     woman_name_gen = make_persons_name('W')
     woman_surname_gen = make_person_surname("W")
     mail_gen = get_mail()
+    params = ["email", "sex", "name", "surname", "A", "ht", "wt"]
+    ext = {}
+    for i in params:
+        ext[i] = False
+    if args.ext != None:
+        for i in range(len(args.ext)):
+            ext[args.ext[i]] = True
     while True:
-        s = ""
+        info = {}
         sex = ""
         ht = 0
-        if not args.name:
+        if not ext["name"]:
             sex += get_sex(args.chance)
             if sex == "W":
-                s += woman_name_gen.__next__() + " "
+                info["name"] = woman_name_gen.__next__()
             else:
-                s += man_name_gen.__next__() + " "
-        if not args.surname:
-            if sex == "W":
-                s += woman_surname_gen.__next__() + " "
-            else:
-                s += man_surname_gen.__next__() + " "
-        if not args.sex:
+                info["name"] = man_name_gen.__next__()
+        if not ext["surname"]:
             if sex == "":
                 sex += get_sex(args.chance)
-            s += sex + " "
-        if not args.A:
-            s += str(get_age(args.age)) + " "
-        if not args.ht:
+            if sex == "W":
+                info["surname"] = woman_surname_gen.__next__()
+            else:
+                info["surname"] = man_surname_gen.__next__()
+        if not ext["sex"]:
+            if sex == "":
+                sex += get_sex(args.chance)
+            info["sex"] = sex
+        if not ext["A"]:
+            info["age"] = str(get_age(args.age))
+        if not ext["ht"]:
             if sex == "":
                 sex += get_sex(args.chance)
             ht += get_ht(sex)
-            s += str(ht) + " "
-        if not args.wt:
+            info["ht"] = str(ht)
+        if not ext["wt"]:
             if ht == 0:
                 if sex == '':
                     sex += get_sex(args.chance)
                 ht = get_ht(sex)
-            s += str(get_wt(ht)) + " "
-        if not args.email:
-            s += mail_gen.__next__() + " "
-        yield s + "\n"
+            info["wt"] = str(get_wt(ht))
+        if not ext["email"]:
+            info["mail"] = mail_gen.__next__()
+        yield info
 
 
 
@@ -186,13 +195,17 @@ def main():
     parser.add_argument("-s", dest="chance", type=int, help="задает количество запсей мужского пола на 100 записей")
     parser.add_argument("-a", dest="age", type=int, help="задает средний возраст среди всех записей")
     parser.add_argument("-output", dest="output", help="задает имя файла, содержащего сгенеированные данные")
-    parser.add_argument("-email", action="store_true", help="флаг отменяет создание email во всех записях")
-    parser.add_argument("-sex", action="store_true", help="флаг отменяет создание пола в записях")
-    parser.add_argument("-name", action="store_true", help="флаг отменяет создание имени в записях")
-    parser.add_argument("-surname", action="store_true", help="флаг отменяет создание фамилии в записях")
-    parser.add_argument("-A", action="store_true", help="флаг отменяет создание возраста в записях")
-    parser.add_argument("-ht", action="store_true", help="флаг отменяет создание роста в записях")
-    parser.add_argument("-wt", action="store_true", help="флаг отменяет создание веса в записях")
+
+    parser.add_argument("-ext", nargs="+", choices=['email', 'sex', 'surname', "A", "ht", "wt", "name"],
+                        help="содержит список флагов, отменяющих создание некоторых данных \n"
+                             "email флаг отменяет создание email во всех запися\n"
+                             "sex флаг отменяет создание пола в записях\n"
+                             "name флаг отменяет создание имени в записях\n"
+                             "surname флаг отменяет создание фамилии в записях\n"
+                             "A флаг отменяет создание возраста в записях\n"
+                             "ht флаг отменяет создание роста в записях\n"
+                             "wt флаг отменяет создание веса в записях\n")
+
     a = [sys.argv[i] for i in range(1, len(sys.argv))]
     args = parser.parse_args(a)
     if args.cnt == None:
@@ -206,7 +219,10 @@ def main():
         args.output = "output.text"
     with open(args.output, "w") as out:
         for i in range(args.cnt):
-            out.write(datagen.__next__())
+            a = datagen.__next__()
+            for j in a.values():
+                out.write(j + " ")
+            out.write("\n")
 
 
 
